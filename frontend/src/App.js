@@ -18,6 +18,8 @@ function App() {
   const [error, setError] = useState('');
   const [forecast, setForecast] = useState([]);
 
+  const BASE_URL = "https://real-time-weather-monitoring.onrender.com"
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -25,7 +27,7 @@ function App() {
           const { latitude, longitude } = position.coords;
           try {
             const response = await axios.get(
-              `http://localhost:5000/api/weather/coords?lat=${latitude}&lon=${longitude}`
+              `${BASE_URL}/api/weather/coords?lat=${latitude}&lon=${longitude}`
             );
             setWeather(response.data);
             setCurrentLocationName(response.data.name);
@@ -42,7 +44,7 @@ function App() {
   const fetchWeather = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/weather/city?location=${location}`
+        `${BASE_URL}/api/weather/city?location=${location}`
       );
       setWeather(response.data);
       setError('');
@@ -55,7 +57,7 @@ function App() {
   const fetchForecast = async (loc) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/weather/forecast?location=${loc}`
+        `${BASE_URL}/api/weather/forecast?location=${loc}`
       );
 
       const groupedData = groupByDay(response.data.list);
